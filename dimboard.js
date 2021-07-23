@@ -17,9 +17,20 @@ function renderPins(pins) {
     list.innerHTML = items.join('\n')
 }
 
-window.onload = () => {
-    if (!window.dimboard) window.dimboard = {}
-    window.dimboard.pinsSrc = "pins.json"
+function addEventListeners() {
+    document.querySelector('#new-pin').addEventListener('click', ({target}) => {
+        const n = document.querySelector('dim-new')
+        if (n.style.display == 'none') {
+            n.style.display = 'block'
+            target.textContent = '-'
+        } else {
+            n.style.display = 'none'
+            target.textContent = '+'
+        }
+    })
+}
 
-    getPins(window.dimboard.pinsSrc).then(renderPins)
+window.onload = () => {
+    addEventListeners()
+    getPins("pins.json").then(renderPins)
 }
