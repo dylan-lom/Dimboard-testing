@@ -1,5 +1,5 @@
-0BSD
-====
+Dimboard
+========
 
-Template repo for projects under the Zero-clause BSD license.
+GitHub-hosted [Pinboard](http://pinboard.in) alternative
 
