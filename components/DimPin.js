@@ -1,10 +1,13 @@
 'use strict'
 
 class DimPin extends HTMLElement {
-    a = document.createElement('a')
+    // TODO: Investigate implications of using shadowRoot -- avoiding for now
+    // due to potential (external) styling limitations.
+    root = document.createElement('div')
+    a = document.createElement('a') // child of root
     details = {
         tags: [],
-        date: new Date(1990, 1, 1)
+        date: document.createElement('span')
     }
 
     constructor() {
@@ -15,9 +18,19 @@ class DimPin extends HTMLElement {
         this.textContent = ''
         this.a.href = this.getAttribute('href')
         this.details.tags = this.getAttribute('tags')?.split(',')
-        this.details.date = new Date(this.getAttribute('date'))
+        this.details.date.textContent = DimPin.FormatDate(new Date(this.getAttribute('date')))
 
-        this.appendChild(this.a)
+        this.root.appendChild(this.a)
+        this.root.appendChild(this.details.date)
+        this.appendChild(this.root)
+    }
+
+    static FormatDate(date) {
+        return ` (${date.toLocaleString().split(',')[0]})`
+    }
+
+    getTags() {
+        return this.details.tags
     }
 }
 
