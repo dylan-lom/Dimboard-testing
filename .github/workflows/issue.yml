@@ -7,6 +7,10 @@ jobs:
     name: Log thing when new issue made
     runs-on: ubuntu-latest
     steps:
-      - name: Log thing
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Say Hi
         run: echo "Hello actions"
+      - name: List files
+        run: ls -l
 
