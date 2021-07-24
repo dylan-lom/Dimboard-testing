@@ -1,7 +1,7 @@
 name: Issues Test
 on:
   issues:
-    types: [opened]
+    types: [opened, edited]
 jobs:
   log:
     name: Log thing when new issue made
@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
-      - name: Say Hi
-        run: echo "Hello actions"
-      - name: List files
-        run: ls -l
+      - name: What's the issue about
+        env:
+            EVENT: ${{ toJSON(github.event) }}
+        run: echo "$EVENT"
 
