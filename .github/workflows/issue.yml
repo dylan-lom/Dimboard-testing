@@ -16,10 +16,10 @@ jobs:
           git config user.email ""
 
       - name: Get issue
+        run: curl -H "Accept: application/vnd.github.v3+json" "$REPO_URL/$ISSUE_NUMBER"
         env:
-            ISSUE_NUMBER: ${{ github.event.issue.number }}
-            REPO_URL: ${{ github.event.issue.repository_url }}
-        run: |
-          curl -H "Accept: application/vnd.github.v3+json" "$REPO_URL/$ISSUE_NUMBER"
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO_URL: ${{ github.event.issue.repository_url }}
+
 
 
