@@ -35,8 +35,8 @@ jobs:
       - name: Push changes
         run: git push
 
-      - name: Close issue
-        uses: peter-evens/close-issue@v1
+      - name: Close Issue
+        uses: peter-evans/close-issue@v1.0.3
         with:
           issue-number: ${{ github.event.issue.number }}
           comment: Pin added
