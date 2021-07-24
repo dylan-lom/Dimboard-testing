@@ -18,9 +18,11 @@ jobs:
       - name: Get issue
         run: |
           curl -H "Accept: application/vnd.github.v3+json" "$REPO_URL/issues/$ISSUE_NUMBER"
+          echo $ISSUE
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           REPO_URL: ${{ github.event.issue.repository_url }}
+          ISSUE: ${{ toJSON(github.event.issue) }}
 
 
 
