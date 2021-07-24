@@ -7,7 +7,7 @@ String.prototype.partition = function(delimiter) {
 }
 const parseBody = (s) => {
     // sue me
-    const body = s.split('\\r\\n')
+    const body = s.split('\r\n')
         .map(ln => ln.partition(':'))
         .reduce((acc, [k, v]) => {
             acc[k.trim().toLowerCase()] = v.trim()
