@@ -7,6 +7,11 @@ jobs:
     name: Log thing when new issue made
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
       - name: Checkout
         uses: actions/checkout@v2.3.4
       
@@ -15,14 +20,12 @@ jobs:
           git config user.name "Dimboard Actions"
           git config user.email ""
 
-      - name: Get issue
-        run: |
-          curl -H "Accept: application/vnd.github.v3+json" "$REPO_URL/issues/$ISSUE_NUMBER"
-          echo $ISSUE
+      - name: Add pin
+        run: node .github/scripts/add-pin.js "$PINS_PATH" "$ISSUE_BODY"
         env:
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          REPO_URL: ${{ github.event.issue.repository_url }}
-          ISSUE: ${{ toJSON(github.event.issue) }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          PINS_PATH: "pins.json"
 
-
+      - name: Check output
+        run: cat pins.json
 
