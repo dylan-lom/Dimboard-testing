@@ -27,5 +27,11 @@ jobs:
           PINS_PATH: "pins.json"
 
       - name: Check output
-        run: cat pins.json
+        run: git show
+
+      - name: Commit changes
+        run: git add . && git commit -m 'Add new pin'
+
+      - name: Push changes
+        run: git push
 
