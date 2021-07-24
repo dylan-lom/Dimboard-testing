@@ -1,0 +1,12 @@
+name: Issues Test
+on:
+  issues:
+    types: [opened]
+jobs:
+  log:
+    name: Log thing when new issue made
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log thing
+        run: echo "Hello actions"
+
