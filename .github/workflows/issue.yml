@@ -3,8 +3,27 @@ on:
   issues:
     types: [opened, edited]
 jobs:
-  log:
-    name: Log thing when new issue made
+  check_issue:
+    name: Check issue is a (valid) new pin request
+    outputs:
+      status: ${{ join(steps.*.conclusion) }}
+    steps:
+      - name: Check issue is a request to create a new pin
+        run: test "$ISSUE_TITLE" = "New Pin"
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+
+      - name: Check issue author is allowed to create pins
+        run: |
+          test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR"
+        env:
+          AUTHOR_ASSOCATION: ${{ github.event.issue.author_association }}
+          PERMITTED_ASSOCATION: OWNER
+
+  add_pin:
+    needs: check_issue
+    if: !contains(needs.check_issue.outputs.status, 'failure')
+    name: Add pin to pins.json
     runs-on: ubuntu-latest
     steps:
       - name: Setup Node.js
