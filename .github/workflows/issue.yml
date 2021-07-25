@@ -15,10 +15,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
       
-      - name: Git config
+      - name: Setup git and gh
         run: |
           git config user.name "Dimboard Actions"
           git config user.email ""
+          echo "$GITHUB_TOKEN" | gh auth login --with-token
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add pin
         run: node .github/scripts/add-pin.js "$PINS_PATH" "$ISSUE_BODY"
