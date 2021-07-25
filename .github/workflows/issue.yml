@@ -36,8 +36,9 @@ jobs:
         run: git push
 
       - name: Close Issue
-        uses: peter-evans/close-issue@v1.0.3
-        with:
-          issue-number: ${{ github.event.issue.number }}
-          comment: Pin added
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body "Pin added."
+          gh issue close "$ISSUE_NUMBER"
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
 
