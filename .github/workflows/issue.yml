@@ -28,6 +28,14 @@ jobs:
           AUTHOR_ASSOCATION: ${{ github.event.issue.author_association }}
           PERMITTED_ASSOCATION: OWNER
 
+      - name: test
+        run: |
+          echo "$check_title"
+          echo "$check_author"
+        env:
+          check_title: ${{ steps.check_title.outputs.result }}
+          check_author: ${{ steps.check_author.outputs.result }}
+
   add_pin:
     name: Add pin to pins.json
     needs: check_issue
