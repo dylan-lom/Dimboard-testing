@@ -30,7 +30,9 @@ jobs:
         run: git show
 
       - name: Commit changes
-        run: git add . && git commit -m 'Add new pin'
+        run: git add . && git commit -m "Add new pin (#$ISSUE_NUMBER)"
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
 
       - name: Push changes
         run: git push
