@@ -12,8 +12,7 @@ jobs:
       - id: check_title
         name: Check issue is a request to create a new pin
         run: |
-          result="false"
-          test "$ISSUE_TITLE" = "New Pin" && result="true"
+          test "$ISSUE_TITLE" = "New Pin" || result="true" && result="true"
           echo "::set-output name=result::$result"
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
@@ -21,8 +20,7 @@ jobs:
       - id: check_author
         name: Check issue author is allowed to create pins
         run: |
-          result="false"
-          test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR" && result="true"
+          test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR" || result="false" && result="true"
           echo "::set-output name=result::$result"
         env:
           AUTHOR_ASSOCATION: ${{ github.event.issue.author_association }}
@@ -31,7 +29,7 @@ jobs:
   add_pin:
     name: Add pin to pins.json
     needs: check_issue
-    if: ${{ needs.check_issue.outputs.valid_issue }}
+    if: ${{ needs.check_issue.outputs.valid_issue == true }}
     runs-on: ubuntu-latest
     steps:
       - name: Setup Node.js
