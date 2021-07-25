@@ -5,6 +5,7 @@ on:
 jobs:
   check_issue:
     name: Check issue is a (valid) new pin request
+    runs-on: ubuntu-latest
     outputs:
       valid_issue: ${{ steps.check_title.conclusion == 'success' && steps.check_author.conclusion == 'sucess' }}
     steps:
