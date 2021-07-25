@@ -7,7 +7,7 @@ jobs:
     name: Check issue is a (valid) new pin request
     runs-on: ubuntu-latest
     outputs:
-      valid_issue: ${{ steps.check_title.outputs.result == 'true' && steps.check_author.outputs.result == 'true' }}
+      valid_issue: ${{ steps.check_title.outputs.result && steps.check_author.outputs.result }}
     steps:
       - id: check_title
         name: Check issue is a request to create a new pin
