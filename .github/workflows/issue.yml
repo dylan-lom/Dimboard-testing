@@ -7,18 +7,23 @@ jobs:
     name: Check issue is a (valid) new pin request
     runs-on: ubuntu-latest
     outputs:
-      valid_issue: ${{ steps.check_title.conclusion == 'success' && steps.check_author.conclusion == 'sucess' }}
+      valid_issue: ${{ steps.check_title.outputs.result == 'true' && steps.check_author.outputs.result == 'true' }}
     steps:
       - id: check_title
         name: Check issue is a request to create a new pin
-        run: test "$ISSUE_TITLE" = "New Pin"
+        run: |
+          result="false"
+          test "$ISSUE_TITLE" = "New Pin" && result="true"
+          echo "::set-output name=result::$result"
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
 
       - id: check_author
         name: Check issue author is allowed to create pins
         run: |
-          test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR"
+          result="false"
+          test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR" && result="true"
+          echo "::set-output name=result::$result"
         env:
           AUTHOR_ASSOCATION: ${{ github.event.issue.author_association }}
           PERMITTED_ASSOCATION: OWNER
