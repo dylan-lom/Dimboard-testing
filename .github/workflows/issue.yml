@@ -19,9 +19,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email ""
-          echo "$GITHUB_TOKEN" | gh auth login --with-token
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add pin
         run: node .github/scripts/add-pin.js "$PINS_PATH" "$ISSUE_BODY"
@@ -46,4 +43,4 @@ jobs:
           gh issue close "$ISSUE_NUMBER"
         env:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
