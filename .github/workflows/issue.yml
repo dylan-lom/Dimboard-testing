@@ -6,14 +6,16 @@ jobs:
   check_issue:
     name: Check issue is a (valid) new pin request
     outputs:
-      status: ${{ join(steps.*.conclusion) }}
+      valid_issue: ${{ steps.check_title.conclusion == 'success' && steps.check_author.conclusion == 'sucess' }}
     steps:
-      - name: Check issue is a request to create a new pin
+      - id: check_title
+        name: Check issue is a request to create a new pin
         run: test "$ISSUE_TITLE" = "New Pin"
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
 
-      - name: Check issue author is allowed to create pins
+      - id: check_author
+        name: Check issue author is allowed to create pins
         run: |
           test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR"
         env:
@@ -21,9 +23,9 @@ jobs:
           PERMITTED_ASSOCATION: OWNER
 
   add_pin:
-    needs: check_issue
-    if: !contains(needs.check_issue.outputs.status, 'failure')
     name: Add pin to pins.json
+    needs: check_issue
+    if: ${{ needs.check_issue.outputs.valid_issue }}
     runs-on: ubuntu-latest
     steps:
       - name: Setup Node.js
