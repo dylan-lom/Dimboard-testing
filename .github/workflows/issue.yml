@@ -13,8 +13,8 @@ jobs:
         name: Check issue is a request to create a new pin
         run: |
           test "$ISSUE_TITLE" = "New Pin" \
-            || echo "::set-output name=result::false" \
-            && echo "::set-output name=result::true"
+            && echo "::set-output name=result::true" \
+            || echo "::set-output name=result::false"
         env:
           ISSUE_TITLE: ${{ github.event.issue.title }}
 
@@ -22,8 +22,8 @@ jobs:
         name: Check issue author is allowed to create pins
         run: |
           test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR" \
-            || echo "::set-output name=result::false" \
-            && echo "::set-output name=result::true"
+            && echo "::set-output name=result::true" \
+            || echo "::set-output name=result::false"
         env:
           AUTHOR_ASSOCATION: ${{ github.event.issue.author_association }}
           PERMITTED_ASSOCATION: OWNER
