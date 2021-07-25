@@ -31,14 +31,9 @@ jobs:
   add_pin:
     name: Add pin to pins.json
     needs: check_issue
-    if: ${{ needs.check_issue.outputs.valid_issue == true }}
+    if: ${{ needs.check_issue.outputs.valid_issue }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check output
-        run: echo "$VALID_ISSUE"
-        env:
-          VALID_ISSUE: ${{ needs.check_issue.outputs.valid_issue }}
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
