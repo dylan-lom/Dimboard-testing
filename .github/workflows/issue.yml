@@ -21,12 +21,12 @@ jobs:
       - id: check_author
         name: Check issue author is allowed to create pins
         run: |
-          test "$PERMITTED_AUTHOR" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_AUTHOR" \
+          test "$PERMITTED_ASSOCIATION" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_ASSOCIATION" \
             && echo "::set-output name=result::true" \
             || echo "::set-output name=result::false"
         env:
-          AUTHOR_ASSOCATION: ${{ github.event.issue.author_association }}
-          PERMITTED_ASSOCATION: OWNER
+          AUTHOR_ASSOCIATION: ${{ github.event.issue.author_association }}
+          PERMITTED_ASSOCIATION: OWNER
 
       - name: Comment that author is not allowed to create pins
         if: ${{ steps.check_title.outputs.result == 'true' && steps.check_author.outputs.result == 'false' }}
