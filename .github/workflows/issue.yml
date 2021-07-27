@@ -19,6 +19,7 @@ jobs:
           ISSUE_TITLE: ${{ github.event.issue.title }}
 
       - id: check_author
+        if: ${{ steps.check_title.outputs.result == 'true' }}
         name: Check issue author is allowed to create pins
         run: |
           test "$PERMITTED_ASSOCIATION" = "*" -o "$AUTHOR_ASSOCIATION" = "$PERMITTED_ASSOCIATION" \
@@ -28,8 +29,8 @@ jobs:
           AUTHOR_ASSOCIATION: ${{ github.event.issue.author_association }}
           PERMITTED_ASSOCIATION: OWNER
 
-      - name: Comment that author is not allowed to create pins
-        if: ${{ steps.check_title.outputs.result == 'true' && steps.check_author.outputs.result == 'false' }}
+      - name: Close issue from author that is not allowed to create pins
+        if: ${{ steps.check_author.outputs.result == 'false' }}
         run: |
             gh issue comment "$ISSUE_URL" --body "Sorry, you do not have permission to create pins on this board."
             gh issue close "$ISSUE_URL"
