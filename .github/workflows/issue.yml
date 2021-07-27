@@ -45,10 +45,15 @@ jobs:
           echo "$check_issue"
           echo "$check_title"
           echo "$check_author"
+          echo "thing: $thing | thing2: $thing2 | thing3: $thing3"
         env:
           check_issue: ${{ needs.check_issue.outputs.valid_issue }}
           check_title: ${{ needs.check_issue.steps.check_title.outputs.result }}
           check_author: ${{ needs.check_issue.steps.check_author.outputs.result }}
+          thing: ${{ needs.check_issue.outputs.valid_issue }}
+          thing2: ${{ needs.check_issue.outputs.valid_issue == 'true' }}
+          thing3: ${{ needs.check_issue.outputs.valid_issue != 'true' }}
+        
 
   add_pin:
     name: Add pin to pins.json
