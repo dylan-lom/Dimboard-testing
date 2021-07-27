@@ -36,6 +36,20 @@ jobs:
           check_title: ${{ steps.check_title.outputs.result }}
           check_author: ${{ steps.check_author.outputs.result }}
 
+  debug:
+    name: Debug output of check_issue
+    runs-on: ubuntu-latest
+    needs: check_issue
+    steps:
+      - run: |
+          echo "$check_issue"
+          echo "$check_title"
+          echo "$check_author"
+        env:
+          check_issue: ${{ needs.check_issue.outputs.valid_issue }}
+          check_title: ${{ needs.check_issue.steps.check_title.outputs.result }}
+          check_author: ${{ needs.check_issue.steps.check_author.outputs.result }}
+
   add_pin:
     name: Add pin to pins.json
     needs: check_issue
