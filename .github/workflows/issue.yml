@@ -27,7 +27,7 @@ jobs:
             || echo "::set-output name=result::false"
         env:
           AUTHOR_ASSOCIATION: ${{ github.event.issue.author_association }}
-          PERMITTED_ASSOCIATION: OWNER
+          PERMITTED_ASSOCIATION: *
 
       - name: Close issue from author that is not allowed to create pins
         if: ${{ steps.check_author.outputs.result == 'false' }}
