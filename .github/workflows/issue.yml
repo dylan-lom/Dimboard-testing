@@ -31,10 +31,10 @@ jobs:
       - name: Comment that author is not allowed to create pins
         if: ${{ steps.check_title.outputs.result == 'true' && steps.check_author.outputs.result == 'false' }}
         run: |
-            gh issue comment "$ISSUE_NUMBER" --body "Sorry, you do not have permission to create pins on this board."
-            gh issue close "$ISSUE_NUMBER"
+            gh issue comment "$ISSUE_URL" --body "Sorry, you do not have permission to create pins on this board."
+            gh issue close "$ISSUE_URL"
         env:
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   add_pin:
